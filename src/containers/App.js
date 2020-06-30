@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from '../Store/actions/index';
 import PropTypes from 'prop-types';
 import PostsList from '../components/PostsList/PostsList';
+import Navbar from '../components/Navbar/Navbar';
 class App extends Component {
 
 
@@ -11,6 +12,7 @@ class App extends Component {
   }
   render() {
     return <div>
+      <Navbar/>
       <PostsList posts={this.props.posts}/>
     </div>;
   }

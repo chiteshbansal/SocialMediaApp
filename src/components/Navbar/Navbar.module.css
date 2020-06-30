@@ -1,0 +1,53 @@
+.left_part,.right_part,.middle_part{
+    display: inline-block;
+}
+.Navbar{
+    display: flex;
+    background-image: linear-gradient(to right,rgb(8, 71, 143),rgb(0, 183, 255),white);
+    justify-content: space-around;
+    align-items: center;
+}
+
+.right_part{
+    display: inline-flex;
+    align-items: center;
+}
+.username{
+    margin: .5rem;  
+    font-family: cursive;
+    color: white;
+}
+.left_part img{
+    margin: .5rem;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+}
+.right_part ul li{
+    display: inline-block;
+    margin: .5rem;
+    padding:  .4rem 1rem;
+    font-family: cursive;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+}
+
+.right_part .UserActions{
+    display: inline-block;
+}
+
+.user_dp{
+    border-radius: 50%;
+    box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+}
+
+.middle_part{
+    display: inline-flex
+}
+.middle_part input[type='text']{
+    padding: .8rem;
+}
+.middle_part button{
+    padding: .75rem;
+    border: none;
+    background-color: white;
+    outline: none;
+    font-family: cursive;
+}
