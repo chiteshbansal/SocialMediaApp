@@ -1,28 +1,47 @@
 import React, { Component } from "react";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as actions from '../Store/actions/index';
-import PropTypes from 'prop-types';
-import PostsList from '../components/PostsList/PostsList';
-import Navbar from '../components/Navbar/Navbar';
+import * as actions from "../Store/actions/index";
+
+// components
+import Login from '../components/Loginform/Loginform';
+import Navbar from "../components/Navbar/Navbar";
+import Home from "./Home";
+
 class App extends Component {
-
-
   componentDidMount() {
     this.props.onFetchPostsHandler();
   }
   render() {
-    return <div>
-      <Navbar/>
-      <PostsList posts={this.props.posts}/>
-    </div>;
+    return (
+      <BrowserRouter>
+        <div>
+          <Navbar />
+          {/* <Home posts = {this.props.posts}/> */},
+          <Switch>
+            <Route
+              path="/Home"
+              exact
+              render={(props) => {
+                return <Home {...props} posts={this.props.posts} />;
+              }}
+            />
+            <Route path="/login" component={Login}/>
+            <Route render = {() =>{return <div>Error 404: Page not Found </div>}}/>
+            
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
   }
 }
 
-
 App.propTypes = {
-  posts:PropTypes.array.isRequired,
-}
-const mapStateToProps = (state) => {
+  posts: PropTypes.array.isRequired,
+};
+
+const mapStateToprops = (state) => {
   return {
     posts: state.posts,
   };
@@ -30,7 +49,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchPostsHandler : () => dispatch(actions.fetchPosts()),
+    onFetchPostsHandler: () => dispatch(actions.fetchPosts()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default connect(mapStateToprops, mapDispatchToProps)(App);
