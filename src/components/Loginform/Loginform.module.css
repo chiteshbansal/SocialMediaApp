@@ -112,7 +112,7 @@ input[type="date"]:focus {
 }
 
 .formbuttons button,
-input[type="submit"] {
+input[type="submit"] ,button{
   padding: 0.8rem;
   background-color: white;
   width: 80%;
@@ -129,6 +129,10 @@ input[type="submit"] {
   display: inline-block;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
   font-family: cursive;
+}
+
+button:disabled{
+  color: gray;
 }
 @media screen and (min-width: 1000px) {
   .loginformcnt,.registerformcnt{

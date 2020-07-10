@@ -7,7 +7,7 @@ const initState = {
 }
 
 
-export default const reducer = (state,action) =>{
+ const reducer = (state=initState,action) =>{
     switch(action.type){
         case actionTypes.LOGIN_START:
             return{
@@ -32,3 +32,5 @@ export default const reducer = (state,action) =>{
     }
     
 }
+
+export default reducer;

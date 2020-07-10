@@ -1,31 +1,35 @@
 import React from "react";
 import classes from "./Loginform.module.css";
+import * as actions from "../../Store/actions/index";
+import { connect } from "react-redux";
 class Loginform extends React.Component {
-    constructor(){
-        super();
-        this.state={
-            email:"",
-            password:'',
-        }
-    }
-    onFormsubmitHandler = ()=>{
-        // event.preventdefault();
-        console.log(this.state.email,this.state.password);
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+    };
+  }
+  onFormsubmitHandler = () => {
+    // event.preventdefault();
+    console.log(this.state.email, this.state.password);
+    const { email, password } = this.state;
+    this.props.onFormSubmission(email, password);
+  };
 
-    }
+  onemailChangeHandler = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  };
 
-    onemailChangeHandler = (e)=>{
-        this.setState({
-            email:e.target.value,
-        });
-    }
-    
-    onpasswordChangeHandler = (e)=>{
-        this.setState({
-            password:e.target.value,
-        });
-    }
+  onpasswordChangeHandler = (e) => {
+    this.setState({
+      password: e.target.value,
+    });
+  };
   render() {
+    const { error, inProgress } = this.props.auth;
     return (
       <div className={classes.loginformcnt}>
         <div className={classes.loginform}>
@@ -33,7 +37,7 @@ class Loginform extends React.Component {
             <div>
               <h2>Hello , Friend...</h2>
             </div>
-            <form >
+            <form>
               <div className={classes.formelement}>
                 <label>Email:</label>
                 <input
@@ -41,7 +45,7 @@ class Loginform extends React.Component {
                   name="username"
                   placeholder="Enter the username"
                   required
-                  onChange = {this.onemailChangeHandler}
+                  onChange={this.onemailChangeHandler}
                 />
               </div>
               <div className={classes.formelement}>
@@ -50,12 +54,19 @@ class Loginform extends React.Component {
                   type="password"
                   name="password"
                   placeholder="Enter the password "
-                  required 
-                  onChange = {this.onpasswordChangeHandler}
+                  required
+                  onChange={this.onpasswordChangeHandler}
                 />
               </div>
+              {error && <div>invalid username or password</div>}
               <div className={classes.formelement}>
-                <input type="submit" name="submit" value="Login" onClick={this.onFormsubmitHandler} />
+                <button
+                  type="submit"
+                  name="submit"
+                  value="Login"
+                  onClick={this.onFormsubmitHandler}
+                  disabled = {inProgress}
+                >Login</button>
               </div>
             </form>
           </div>
@@ -65,5 +76,15 @@ class Loginform extends React.Component {
     );
   }
 }
-
-export default Loginform;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onFormSubmission: (email, password) =>
+      dispatch(actions.logIn(email, password)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Loginform);
