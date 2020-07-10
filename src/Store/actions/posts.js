@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { APIurls } from '../../Helper/Urls/url';
 
 export const  fetchPostsSuccess = (posts)=>{
     return {
@@ -13,7 +14,7 @@ export const  fetchPosts = () =>{
     return dispatch =>{
         // here I will fetch post from api 
         // the asyn part 
-        axios.get('http://codeial.com:8000/api/v2/posts?page=1&limit=5')
+        axios.get(APIurls.fetchPosts(1,5))
             .then(response => {
                 const fetchedPosts = response.data.data.posts;
                 dispatch(fetchPostsSuccess(fetchedPosts));
