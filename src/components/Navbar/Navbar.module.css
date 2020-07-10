@@ -42,7 +42,10 @@
     display: inline-flex
 }
 .middle_part input[type='text']{
-    padding: .8rem;
+    padding: .4rem;
+    height: 100%;
+    margin: auto;
+    /* box-sizing: border-box; */
 }
 .middle_part button{
     padding: .75rem;

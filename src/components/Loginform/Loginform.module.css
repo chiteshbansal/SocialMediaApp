@@ -131,7 +131,7 @@ input[type="submit"] ,button{
   font-family: cursive;
 }
 
-button:disabled{
+.formbuttons button:disabled{
   color: gray;
 }
 @media screen and (min-width: 1000px) {

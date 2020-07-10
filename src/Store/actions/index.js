@@ -4,4 +4,5 @@ export {
 
 export {
     logIn,
+    signUp,
 } from './auth';

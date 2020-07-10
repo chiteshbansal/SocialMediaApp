@@ -3,7 +3,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../Store/actions/index";
-
+import Signup from '../components/SignUp/SignUp';
 // components
 import Login from '../components/Loginform/Loginform';
 import Navbar from "../components/Navbar/Navbar";
@@ -28,6 +28,7 @@ class App extends Component {
               }}
             />
             <Route path="/login" component={Login}/>
+            <Route path="/register" component={Signup}/>
             <Route render = {() =>{return <div>Error 404: Page not Found </div>}}/>
             
           </Switch>
