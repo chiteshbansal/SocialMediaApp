@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 const initState = {
+    token:null,
     user:{},
     error:null,
     isLoggedIn:false,
@@ -18,8 +19,9 @@ const initState = {
         case actionTypes.LOGIN_SUCCESS:
         case actionTypes.SIGNUP_SUCCESS:
             return{
-                ... state,
-                user:action.user,
+                ...state,
+                user:action.user.user,
+                token:action.user.token,
                 error:null,
                 isLoggedIn:true,
                 inProgress:false,

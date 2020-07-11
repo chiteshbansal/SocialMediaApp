@@ -10,6 +10,12 @@ class Loginform extends React.Component {
       password: "",
     };
   }
+
+  componentWillMount() {
+    if(localStorage.getItem('token')){
+      this.props.history.goBack();
+    }
+  }
   onFormsubmitHandler = () => {
     // event.preventdefault();
     console.log(this.state.email, this.state.password);

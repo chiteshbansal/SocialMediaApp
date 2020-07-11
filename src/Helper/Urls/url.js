@@ -2,7 +2,8 @@ const API_root = `http://codeial.com:8000/api/v2`;
 
 export const APIurls = {
   login: () => {
-    return `${API_root}/users/login`;
+    console.log(`${API_root}/users/login`);
+    return (`${API_root}/users/login`);
   },
   signup: () => {
     return `${API_root}/users/signup`;

@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../Store/actions/index";
+import * as jwtDecode from 'jwt-decode';
 import Signup from '../components/SignUp/SignUp';
 // components
 import Login from '../components/Loginform/Loginform';
@@ -12,6 +13,11 @@ import Home from "./Home";
 class App extends Component {
   componentDidMount() {
     this.props.onFetchPostsHandler();
+    const token  = localStorage.getItem('token');
+    if(token){
+      const user = jwtDecode(token);
+      console.log('user ',user);
+    }
   }
   render() {
     return (

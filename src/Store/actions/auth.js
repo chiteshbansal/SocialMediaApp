@@ -16,18 +16,18 @@ export const signUpStart = () => {
   };
 };
 
-export const signUpSuccess = (user) => {
+export const signUpSuccess = (userData) => {
   console.log("signup success");
   return {
     type: actionTypes.SIGNUP_SUCCESS,
-    user: user,
+    user: userData,
   };
 };
 
-export const loginSuccess = (user) => {
+export const loginSuccess = (userData) => {
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    user: user,
+    user: userData,
   };
 };
 
@@ -46,31 +46,31 @@ export const signUpFail = (error) => {
   };
 };
 export const logIn = (email, password) => {
-
   return (dispatch) => {
     dispatch(loginStart());
-
-    // fetch(APIurls.login,
-    //   {
-    //     method:'POST',
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //     },
-    //     body: getformbody({ email, password }),
-    //   })
-    axios
-      .post(APIurls.login(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: getformbody({ email, password }),
-      })
+    let url = APIurls.login();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: getformbody({ email, password }),
+    })
       .then((response) => response.json())
-      .then((data) => console.log("data", data))
+      .then((data) => {
+        console.log("data", data);
+        if(data.success)
+        {localStorage.setItem('token',data.data.token);
+        localStorage.setItem('userInfo',data.data.user);
+        dispatch(loginSuccess(data.data))}
+        else{
+          dispatch(loginFail(data.message));
+        }
+      })
       .catch((error) => {
         console.log(error);
-        dispatch(loginFail(error.response.data));
+        console.log(error.response);
+        // dispatch(loginFail(error));
       });
   };
 };
@@ -78,28 +78,26 @@ export const logIn = (email, password) => {
 export const signUp = (email, password, username, confirm_password) => {
   return (dispatch) => {
     dispatch(signUpStart());
-
-    // fetch(APIurls.login,
-    //   {
-    //     method:'POST',
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //     },
-    //     body: getformbody({ email, password }),
-    //   })
-    axios
-      .post(APIurls.signup(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: getformbody({ email, password, username, confirm_password }),
-      })
+    let url = APIurls.signup();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: getformbody({ email, password, name: username, confirm_password }),
+    })
       .then((response) => {
-        console.log('response is ',response);
-        response.json();
+        console.log("response is ", response);
+        return response.json();
       })
-      .then((data) => console.log("data", data))
+      .then((data) => {
+        console.log("data", data);
+        if (data.success) {
+          dispatch(signUpSuccess(data.data));
+        } else {
+          dispatch(signUpFail(data.message));
+        }
+      })
       .catch((error) => {
         console.log("error is", error);
         dispatch(signUpFail(error.response.data));
