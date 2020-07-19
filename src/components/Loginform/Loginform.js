@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Loginform.module.css";
 import * as actions from "../../Store/actions/index";
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 class Loginform extends React.Component {
   constructor() {
     super();
@@ -11,10 +12,9 @@ class Loginform extends React.Component {
     };
   }
 
-  componentWillMount() {
-    if(localStorage.getItem('token')){
-      this.props.history.goBack();
-    }
+  //WARNING! To be deprecated in React v17. Use componentDidUpdate instead.
+  componentWillUnmount() {
+    this.props.onClearAuthState();
   }
   onFormsubmitHandler = () => {
     // event.preventdefault();
@@ -35,7 +35,10 @@ class Loginform extends React.Component {
     });
   };
   render() {
-    const { error, inProgress } = this.props.auth;
+    const { error, inProgress,isLoggedIn } = this.props.auth;
+    if(isLoggedIn){
+      return <Redirect to ="/"/>
+    }
     return (
       <div className={classes.loginformcnt}>
         <div className={classes.loginform}>
@@ -71,8 +74,10 @@ class Loginform extends React.Component {
                   name="submit"
                   value="Login"
                   onClick={this.onFormsubmitHandler}
-                  disabled = {inProgress}
-                >Login</button>
+                  disabled={inProgress}
+                >
+                  Login
+                </button>
               </div>
             </form>
           </div>
@@ -91,6 +96,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFormSubmission: (email, password) =>
       dispatch(actions.logIn(email, password)),
+    onClearAuthState: () => dispatch(actions.clearAuthState()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Loginform);

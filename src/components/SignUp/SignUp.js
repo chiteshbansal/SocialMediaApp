@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classes from "../Loginform/Loginform.module.css";
 import { connect } from "react-redux";
 import * as actions from "../../Store/actions/index";
+import { Redirect } from "react-router";
 class SignUp extends Component {
     state={
         email:"",
@@ -9,6 +10,9 @@ class SignUp extends Component {
         username:"",
         confirm_password:"",
     }
+    componentWillUnmount() {
+      this.props.onClearAuthState();
+  }
 
     onSubmitHandler = () =>{
         const {email,password,username,confirm_password} = this.state;
@@ -22,7 +26,10 @@ class SignUp extends Component {
         })
     }
   render() {
-    const { error, inProgress} = this.props.auth;
+    const { error, inProgress,isLoggedIn} = this.props.auth;
+    if(isLoggedIn){
+      return <Redirect to ="/" />
+    }
     let assignClass = [classes.registerform, classes.loginform];
     return (
       <div className={classes.registerformcnt}>
@@ -79,6 +86,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onSignUpHandler: (email, password, username, confirm_password) =>
       dispatch(actions.signUp(email, password, username, confirm_password)),
+    onClearAuthState : () => dispatch(actions.clearAuthState()),
   };
 };
 

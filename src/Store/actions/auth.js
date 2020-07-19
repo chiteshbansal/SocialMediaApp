@@ -38,6 +38,12 @@ export const loginFail = (error) => {
   };
 };
 
+export const clearAuthState = () =>{
+  return{
+    type:actionTypes.CLEAR_AUTH_STATE,
+  }
+}
+
 export const signUpFail = (error) => {
   console.log("sign up fail ", error);
   return {
@@ -61,7 +67,7 @@ export const logIn = (email, password) => {
         console.log("data", data);
         if(data.success)
         {localStorage.setItem('token',data.data.token);
-        localStorage.setItem('userInfo',data.data.user);
+        localStorage.setItem('user',data.data.user);
         dispatch(loginSuccess(data.data))}
         else{
           dispatch(loginFail(data.message));
@@ -104,3 +110,27 @@ export const signUp = (email, password, username, confirm_password) => {
       });
   };
 };
+
+
+export const authenticateUser = (token,user) =>{
+  return{
+    type:actionTypes.AUTHENTICATE_USER,
+    token:token,
+    user:user,
+  }
+}
+
+export const logOutSuccess =( ) =>{
+  return {
+    type :actionTypes.LOG_OUT,
+  }
+}
+
+export const logOut = () =>{
+  return dispatch =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    dispatch(logOutSuccess());
+  }
+  
+}
