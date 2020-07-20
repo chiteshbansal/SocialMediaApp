@@ -1,0 +1,22 @@
+.FriendListItem {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #cccccc;
+  padding: .5rem 1rem;
+  margin: 1rem 0rem;
+  /* box-sizing: border-box; */
+}
+
+.FriendListItem img {
+  border-radius: 50%;
+}
+.FriendListItem .img_cnt{
+  display: inline-flex;
+  align-items: center;
+}
+.FriendListItem .UserName{
+  display: inline-block;
+  margin-left: 1rem;
+}

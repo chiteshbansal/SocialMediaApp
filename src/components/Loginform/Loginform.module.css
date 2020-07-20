@@ -112,7 +112,7 @@ input[type="date"]:focus {
 }
 
 .formbuttons button,
-input[type="submit"] ,button{
+input[type="submit"] ,.formelement button{
   padding: 0.8rem;
   background-color: white;
   width: 80%;

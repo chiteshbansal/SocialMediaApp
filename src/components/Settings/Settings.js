@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+ import React, { Component } from 'react'
 import classes from './Settings.module.css';
 import avatar from '../../Assets/Images/avatar.jpg';
 import {connect} from 'react-redux';
+import * as actions from '../../Store/actions/index';
 class Settings extends Component {
     constructor(props){
         super(props);
@@ -9,7 +10,9 @@ class Settings extends Component {
             name:this.props.user.name,
             email:this.props.user.email,
             password:this.props.user.password,
+            confirmPassowrd:'',
             EditMode:false,
+            error:null,
         }
     }
     EnableEditModeHandler  = () =>{
@@ -18,15 +21,11 @@ class Settings extends Component {
         })
     }
 
-    changeModeHandler  = () =>{
-        this.setState({
-            EditMode:true,
-        })
-    }
 
     DisableEditModeHandler = ()=>{
         this.setState({
             EditMode:false,
+            error:null,
         })
     }
     onFieldChangeHandler = (event,field) =>{
@@ -34,8 +33,24 @@ class Settings extends Component {
             [field]:event.target.value,
         })
     }
+
+    updateInfoHandler = () =>{
+        const {name,password,confirmPassword,email} = this.state;
+        if(password===confirmPassword)
+        {
+            this.props.onEditHandler(name,password,confirmPassword,this.props.user._id,email);
+            this.DisableEditModeHandler();
+            this.setState({
+                error:null,
+            })
+        }else{
+            this.setState({
+                error:"Confirm Password and Password don't match"
+            });
+        }
+         
+    }
     render() {
-        console.log(this.state.name,this.state.email,this.state.password);
         const {EditMode} = this.state;
         const {user} = this.props;
         return (
@@ -45,23 +60,25 @@ class Settings extends Component {
                 </div>
                 <div className={classes.user_info}>
                     <div className={classes.field}>
-                        <div className={classes.label}>Name </div>
+                        <div className={classes.label}>Name: </div>
                         {EditMode?<input type="text" value = {this.state.name} onChange={(event) =>this.onFieldChangeHandler(event,'name')}/>:
                         <div className={classes.value}> {user.name}</div>}
                     </div>
                     <div className={classes.field}>
-                        <div className={classes.label}>Email </div>
+                        <div className={classes.label}>Email :</div>
                         {EditMode?<input type="text" value={this.state.email} onChange={(event) =>this.onFieldChangeHandler(event,'email')}/>:
                         <div className={classes.value}> {user.email}</div>}
                     </div>
+                    
                     {EditMode && <div className={classes.field}>
-                        <div className={classes.label}>New Password </div>
-                        <input type="password" value={this.state.password} onChange={(event) =>this.onFieldChangeHandler(event,'password')}/>
+                        <div className={classes.label}> Password </div>
+                        <input type="password"  onChange={(event) =>this.onFieldChangeHandler(event,'password')}/>
                         </div>}
                     {EditMode && <div className={classes.field}>
                     <div className={classes.label}>Confirm Password </div>
-                    <input type="password"/>
+                    <input type="password" required onChange={(event) =>this.onFieldChangeHandler(event,'confirmPassword')}/>
                     </div>}
+                    {this.state.error&& <div className={classes.error_cnt}>{this.state.error}</div>}
                     <div>
                         {EditMode?<button className={classes.save_btn} onClick = {this.updateInfoHandler}>Save</button>:
                                     <button className={classes.edit_btn} onClick={this.EnableEditModeHandler}>Edit</button>}
@@ -77,4 +94,10 @@ const mapStateToProps = state =>{
         user:state.auth.user
     }
 }
-export default connect(mapStateToProps)(Settings);
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onEditHandler:(name,password,confirmPassword,userId,email)  =>{return dispatch(actions.editUser(name,password,confirmPassword,userId,email))}
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Settings);

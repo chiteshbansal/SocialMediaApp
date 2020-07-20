@@ -35,9 +35,11 @@ class Loginform extends React.Component {
     });
   };
   render() {
-    const { error, inProgress,isLoggedIn } = this.props.auth;
-    if(isLoggedIn){
-      return <Redirect to ="/"/>
+    const { error, inProgress, isLoggedIn } = this.props.auth;
+    const {from } = this.props.location.state || {from:{pathname:'/'}}
+    if (isLoggedIn) {
+      console.log("login props are", this.props);
+      return <Redirect to={from} />;
     }
     return (
       <div className={classes.loginformcnt}>

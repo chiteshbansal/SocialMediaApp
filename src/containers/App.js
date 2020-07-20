@@ -7,6 +7,7 @@ import * as jwtDecode from "jwt-decode";
 import Signup from "../components/SignUp/SignUp";
 // components
 import Login from "../components/Loginform/Loginform";
+import UserProfile from '../components/UserProfile/UserProfile';
 import Navbar from "../components/Navbar/Navbar";
 import Home from "./Home";
 import Settings from '../components/Settings/Settings';
@@ -18,7 +19,15 @@ const PrivateRoute = (props) => {
     <Route
       path={path}
       render={(props) => {
-        return isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />;
+        return isLoggedIn ? <Component {...props} /> : <Redirect to={
+         { pathname:"/login",
+            state:{
+              from:props.location,
+            }
+        
+        }
+
+        }/>;
       }}
     />
   );
@@ -31,9 +40,11 @@ class App extends Component {
       const user = jwtDecode(token);
       console.log("user ", user);
       this.props.onAuthenticateUser(token, user);
+      this.props.onFetchFriends();
     }
   }
   render() {
+    console.log('friends are ',this.props.friends);
     const { isLoggedIn } = this.props.auth;
     return (
       <BrowserRouter>
@@ -44,10 +55,11 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Signup} />
             <PrivateRoute path="/settings" component={Settings} isLoggedIn={isLoggedIn} />
+            <PrivateRoute path="/UserProfile/:userId" component={UserProfile} isLoggedIn={isLoggedIn} />
             <Route
               path="/"
               render={(props) => {
-                return <Home {...props} posts={this.props.posts} />;
+                return <Home {...props} posts={this.props.posts} isLoggedIn = {isLoggedIn} friends = {this.props.friends} />;
               }}
             />
 
@@ -71,6 +83,7 @@ const mapStateToprops = (state) => {
   return {
     posts: state.post.posts,
     auth: state.auth,
+    friends:state.Friends.friends,
   };
 };
 
@@ -79,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
     onFetchPostsHandler: () => dispatch(actions.fetchPosts()),
     onAuthenticateUser: (token, user) =>
       dispatch(actions.authenticateUser(token, user)),
+    onFetchFriends : () => dispatch(actions.fetchFriends()),
   };
 };
 

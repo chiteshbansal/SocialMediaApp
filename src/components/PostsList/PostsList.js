@@ -3,6 +3,7 @@ import classes from './PostsList.module.css';
 import Post from './Post/Post';
 import PropTypes from 'prop-types';
 import Spinner from '../UI/Spinner/Spinner';
+import CreatePost from '../CreatePost/CreatePost';
 const PostsList = (props) =>{
     const {posts} = props;
     let PostsList = <Spinner/>
@@ -14,6 +15,7 @@ const PostsList = (props) =>{
     }
     return (
         <div className={classes.PostsList}>
+            <CreatePost/>
             {PostsList}
         </div>
     );

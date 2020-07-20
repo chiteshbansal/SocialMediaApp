@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { act } from 'react-dom/test-utils';
+
 const initState = {
     token:null,
     user:{},
@@ -53,6 +53,18 @@ const initState = {
                 token:null,
                 user:{},
                 isLoggedIn:false,
+            }
+        case actionTypes.EDITUSER_SUCCESS:
+            return{
+                ...state,
+                token:action.token,
+                user:action.user,
+                error:null,
+            }
+        case actionTypes.EDITUSER_FAIL:
+            return{
+                ...state,
+                error:action.error,
             }
         default:
             return state;

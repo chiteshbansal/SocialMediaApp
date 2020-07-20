@@ -1,0 +1,11 @@
+.PostsList{
+    background-color: #eeeeee;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width:1000px){
+    .PostsList{
+        width: 70%;
+    }
+}

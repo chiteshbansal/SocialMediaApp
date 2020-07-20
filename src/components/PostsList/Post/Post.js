@@ -2,8 +2,11 @@ import React from "react";
 import classes from "./Post.module.css";
 import avatar from "../../../Assets/Images/avatar.jpg";
 import Spinner from "../../UI/Spinner/Spinner";
+import { Link } from "react-router-dom";
 const Post = (props) => {
+  
   const { post } = props;
+  console.log('post is ',post);
   let Post = <Spinner />;
   if (post) {
     Post = (
@@ -14,7 +17,11 @@ const Post = (props) => {
               {post ? post.user.name : "username"}
             </div>
             <div className={classes.authorImage}>
-              <img src={avatar} alt="AuthorImage" />
+              <Link
+                to={`/UserProfile/${post.user._id }`}
+              >
+                <img src={avatar} alt="AuthorImage" />
+              </Link>
             </div>
           </div>
           <div className={classes.postContent}>
@@ -36,17 +43,19 @@ const Post = (props) => {
             </div>
           </div>
         </div>
-        <hr style={{width:'80%'}}></hr>
+        <hr style={{ width: "80%" }}></hr>
         <div className={classes.lowerCnt}>
-            <div className={classes.commentBox}>
-                <input type='text' 
-                    name='comment' 
-                    placeholder="Write a Comment ..."/>
-            </div>
-        
-            <div className={classes.commentList}>
-                Billy : Good Bro : &nbsp;&nbsp;{post.updatedAt}
-            </div>
+          <div className={classes.commentBox}>
+            <input
+              type="text"
+              name="comment"
+              placeholder="Write a Comment ..."
+            />
+          </div>
+
+          <div className={classes.commentList}>
+            Billy : Good Bro : &nbsp;&nbsp;{post.updatedAt}
+          </div>
         </div>
       </div>
     );

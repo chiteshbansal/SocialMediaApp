@@ -1,5 +1,6 @@
 export {
     fetchPosts,
+    createPost
 } from './posts';
 
 export {
@@ -8,4 +9,12 @@ export {
     authenticateUser,
     logOut,
     clearAuthState,
+    editUser,
 } from './auth';
+
+export {
+    userProfile,
+} from './UserProfile';
+export {
+    fetchFriends,
+} from './Friends';

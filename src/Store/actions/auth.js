@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import axios from "axios";
 import { APIurls } from "../../Helper/Urls/url";
 import { getformbody } from "../../Helper/Utility.js/Utility";
 
@@ -133,4 +132,58 @@ export const logOut = () =>{
     dispatch(logOutSuccess());
   }
   
+}
+
+
+export const editUserSuccess= (user,token) =>{
+  return {
+    type:actionTypes.EDITUSER_SUCCESS,
+    user:user,
+    token:token,
+  }
+}
+
+export const editUserFail= (error) =>{
+  return {
+    type:actionTypes.EDITUSER_FAIL,
+    error:error
+  }
+}
+
+export const editUser = (name,password,confirmPassword,userId,email) =>{
+  return dispatch =>{
+    //api request to edit the user data'
+    const url = APIurls.editProfile();
+    fetch(url,{
+      method:"POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+         Authorization:`Bearer ${localStorage.getItem('token')}`,
+      },
+      body:getformbody({
+        name,
+        password,
+        confirm_password:confirmPassword,
+        id:userId,
+        email,
+      }),
+    })
+    .then((response) =>{
+      console.log('response is ',response);
+      return response.json();
+    })
+    .then(data=>{
+       console.log('data',data);
+       if(data.success){
+         dispatch(editUserSuccess(data.data.user,data.data.token));
+         if(data.data.token){
+          localStorage.setItem('token',data.data.token);
+        }
+
+        return;
+       }
+      
+       dispatch(editUserFail(data.message));
+    })
+  }
 }

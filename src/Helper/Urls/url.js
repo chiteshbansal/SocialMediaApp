@@ -8,7 +8,25 @@ export const APIurls = {
   signup: () => {
     return `${API_root}/users/signup`;
   },
+  editProfile :() =>{
+    return `${API_root}/users/edit`;
+  },
   fetchPosts: (page, limit) => {
     return `${API_root}/posts?page=${page}&limit=${limit}`;
+  },
+  userProfile :(userId) => {
+    return `${API_root}/users/${userId}`
+  },
+  fetchFriends :()=>{
+    return `${API_root}/friendship/fetch_user_friends`;
+  },
+  addFriend :(userId)=>{
+    return `${API_root}/friendship/create_friendship?user_id=${userId}`;
+  },
+  removeFriend :(userId)=>{
+    return `${API_root}/friendship/remove_friendship?user_id=${userId}`;
+  },
+  createPost :() =>{
+    return `${API_root}/posts/create`;
   },
 };

@@ -12,6 +12,12 @@ const reducer = (state=initState,action) =>{
                 ...state,
                 posts:action.posts
             }
+        case actionTypes.ADD_POST:
+            let newPost = [action.post,...state.posts];
+            return{
+                ...state,
+                posts:newPost
+            }
         default:
             return state;
     }
